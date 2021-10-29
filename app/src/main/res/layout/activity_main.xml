@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/secondaryBg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:paddingTop="30dp"
+        android:background="@color/secondaryBg">
+
+        <TextView
+            android:id = "@+id/app_name"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:layout_marginStart = "20dp"
+            android:text = "Seed The Rise"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize = "24sp"
+            android:textColor = "#1BD324"
+            android:textStyle = "bold"
+            android:background="@color/secondaryBg"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/appBar"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:gravity = "center_vertical"
+            android:padding = "10dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/secondaryBg"
+            android:weightSum = "1">
+            <LinearLayout
+                android:layout_width = "0dp"
+                android:layout_height = "match_parent"
+                android:layout_weight = "0.6"
+                android:background="@color/secondaryBg">
+
+                <TextView
+                    android:id = "@+id/name"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:layout_marginStart = "20dp"
+                    android:text = "Devices"
+                    android:textSize = "20sp"
+                    android:textColor = "@color/titleTextColor"
+                    android:textStyle = "bold"
+                    android:background="@color/secondaryBg"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width = "0dp"
+                android:layout_height = "match_parent"
+                android:layout_marginEnd = "20dp"
+                android:layout_weight = "0.4"
+                android:gravity = "end"
+                android:background="@color/secondaryBg">
+
+<!--                <Switch-->
+<!--                    android:id="@+id/switchTheme"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:textColor="@color/secondaryTextColor" />-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/addGrp"-->
+<!--                    android:layout_width = "wrap_content"-->
+<!--                    android:layout_height = "match_parent"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:src = "@drawable/ic_baseline_add_24" />-->
+            </LinearLayout>
+        </LinearLayout>
+<!--    </androidx.appcompat.widget.Toolbar>-->
+<!--</com.google.android.material.appbar.AppBarLayout>-->
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="25dp"
+        android:padding="2dp"
+        android:elevation="10dp"
+        android:background="@drawable/shape">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape" />
+    </LinearLayout>
+
+</LinearLayout>

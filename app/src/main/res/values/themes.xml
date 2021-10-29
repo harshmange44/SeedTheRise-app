@@ -1,0 +1,169 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SeedTheRise" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+<!--        <item name="windowActionBar">false</item>-->
+        <item name="windowNoTitle">true</item>
+        <item name="android:forceDarkAllowed">false</item>
+
+        <item name="colorPrimary">@color/bg</item>
+        <item name="colorPrimaryVariant">@color/bg</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="background">@color/bg</item>
+        <item name="titleTextColor">@color/titleTextColor</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/black</item>
+        <item name="colorSecondaryVariant">@color/black</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#C3C3C3</item>
+        <!-- Customize your theme here. -->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/ActionModeStyle</item>
+<!--        <item name="actionModeBackground">@color/secondaryBg</item>-->
+        <item name="actionModeCloseDrawable">@drawable/ic_baseline_close_24</item>
+        <item name="android:datePickerDialogTheme">@style/DateTimePicker</item>
+        <item name="android:timePickerDialogTheme">@style/DateTimePicker</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Zersey.MaterialComponents.BottomSheetDialog</item>
+    </style>
+
+    <style name="ActionModeStyle" parent="@style/Widget.AppCompat.ActionMode">
+<!--        <item name="actionModeCloseDrawable">@drawable/ic_baseline_close_24</item>-->
+        <item name="background">@color/secondaryBg</item>
+        <item name="titleTextStyle">@style/ActionModeTitleTextStyle</item>
+    </style>
+
+    <style name="ActionModeTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionMode.Title">
+        <item name="android:textColor">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="DateTimePicker"
+        parent="Theme.MaterialComponents.Dialog">
+        <item name="colorPrimary">@color/bg</item>
+        <item name="colorPrimaryDark">@color/secondaryTextColor</item>
+        <item name="colorAccent">@color/secondaryTextColor</item>
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="colorControlHighlight">@color/bg</item>
+        <item name="colorControlActivated">@color/iconColor</item>
+        <item name="selectableItemBackgroundBorderless">@color/iconColor</item>
+        <item name="android:calendarTextColor">@color/secondaryTextColor</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:textColorPrimary">@color/rippelColor</item>
+        <item name="android:textColorSecondary">#FFFFFF</item>
+    </style>
+    <style name="dialog"
+        parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:datePickerDialogTheme">@style/DateTimePicker</item>
+        <item name="android:timePickerDialogTheme">@style/DateTimePicker</item>
+    </style>
+    <style name="ThemeOverlay.Zersey.MaterialComponents.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Zersey.BottomSheet</item>
+    </style>
+    <style name="Widget.Zersey.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Zersey</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Zersey">
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeTopLeft">20dp</item>
+        <item name="cornerSizeTopRight">20dp</item>
+    </style>
+
+<!--    voice-video call styles-->
+
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--<item name="android:windowActionBar">false</item>-->
+        <!-- Customize your theme here. -->
+
+        <item name="colorPrimary">@color/bg</item>
+        <item name="colorPrimaryDark">@color/secondaryBg</item>
+
+        <item name="android:windowBackground">@color/bg</item>
+    </style>
+
+    <style name="MatchParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="MatchWidth">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="WrapContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="WeightWidth">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="FabStyle" parent="WrapContent">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginBottom">@dimen/fab_margin_bottom</item>
+        <item name="android:layout_marginRight">@dimen/fab_margin_right</item>
+        <item name="android:layout_gravity">right|bottom</item>
+        <item name="borderWidth">0dp</item>
+        <item name="fabSize">normal</item>
+    </style>
+
+    <style name="ListItem" parent="MatchWidth">
+        <item name="android:layout_height">?android:attr/listPreferredItemHeight</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="UserTitleStyle" parent="WeightWidth">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="UserCheckboxStyle" parent="WrapContent">
+        <item name="android:layout_marginRight">@dimen/list_item_side_margin</item>
+        <item name="android:clickable">false</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+    <style name="ListViewWithoutDividerStyle" parent="MatchParent">
+        <item name="android:divider">@null</item>
+    </style>
+
+    <style name="ListItemIconStyle">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">@dimen/list_item_side_margin</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="UserIconStyle" parent="ListItemIconStyle">
+        <item name="android:layout_marginLeft">@dimen/list_item_side_margin</item>
+        <item name="android:padding">@dimen/padding_common</item>
+    </style>
+
+    <style name="DialogNameStyle" parent="MatchWidth">
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="ToolbarStyleCall" parent="Widget.AppCompat.Toolbar">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+    </style>
+
+    <style name="SeekBarPreferenceTitle" parent="WrapContent">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

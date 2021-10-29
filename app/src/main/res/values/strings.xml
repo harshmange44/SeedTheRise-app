@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Seed The Rise</string>
+    <string name="error">Error</string>
+    <string name="permission_unavailable">%s is not unavailable</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string-array name="cropNames">
+        <item>Tomato</item>
+        <item>Capsicum</item>
+        <item>Carrot</item>
+        <item>Potato</item>
+        <item>Rice</item>
+        <item>Onion</item>
+        <item>Watermelon</item>
+        <item>Grape</item>
+        <item>Orange</item>
+        <item>Brinjal</item>
+        <item>Wheat</item>
+    </string-array>
+</resources>
