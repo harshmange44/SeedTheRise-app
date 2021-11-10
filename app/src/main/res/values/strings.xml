@@ -16,4 +16,12 @@
         <item>Brinjal</item>
         <item>Wheat</item>
     </string-array>
+
+    <string-array name="sensorNames">
+        <item>Temperature</item>
+        <item>Humidity</item>
+        <item>Air</item>
+        <item>Soil</item>
+        <item>Light</item>
+    </string-array>
 </resources>

@@ -18,14 +18,38 @@ public class SensorDataResult {
     @SerializedName("ldr")
     private Integer ldr;
 
-    @SerializedName("temperature_humidity")
-    private Integer temperature_humidity;
+    public void setAir(Integer air) {
+        this.air = air;
+    }
 
-    public SensorDataResult(Integer air, Integer soil, Integer ldr, Integer temperature_humidity) {
+    public void setSoil(Integer soil) {
+        this.soil = soil;
+    }
+
+    public void setLdr(Integer ldr) {
+        this.ldr = ldr;
+    }
+
+    public void setTemperature(Integer temperature) {
+        this.temperature = temperature;
+    }
+
+    public void setHumidity(Integer humidity) {
+        this.humidity = humidity;
+    }
+
+    @SerializedName("temperature")
+    private Integer temperature;
+
+    @SerializedName("humidity")
+    private Integer humidity;
+
+    public SensorDataResult(Integer air, Integer soil, Integer ldr, Integer temperature, Integer humidity) {
         this.air = air;
         this.soil = soil;
         this.ldr = ldr;
-        this.temperature_humidity = temperature_humidity;
+        this.temperature = temperature;
+        this.humidity = humidity;
     }
 
     public Integer getAirSensorData() {
@@ -37,8 +61,11 @@ public class SensorDataResult {
     public Integer getLDRSensorData() {
         return ldr;
     }
-    public Integer getTemperatureAndMoistureSensorData() {
-        return temperature_humidity;
+    public Integer getTemperatureSensorData() {
+        return temperature;
+    }
+    public Integer getHumiditySensorData() {
+        return humidity;
     }
 }
 

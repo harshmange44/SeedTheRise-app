@@ -15,6 +15,7 @@
         </activity>
 
         <activity android:name=".CropHealthActivity" />
+        <activity android:name=".GraphActivity" />
 
         <activity android:name=".SplashActivity">
             <intent-filter>
