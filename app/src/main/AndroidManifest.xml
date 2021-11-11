@@ -10,7 +10,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/plant"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SeedTheRise">
+        android:theme="@style/Theme.SeedTheRise"
+        android:usesCleartextTraffic="true">
+
         <activity android:name=".MainActivity">
         </activity>
 

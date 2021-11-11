@@ -22,7 +22,7 @@
     <color name="color_grey">#d3d3d3</color>
 
     <color name="good_status">#1BB822</color>
-    <color name="normal_status">#FFC107</color>
+    <color name="neutral_status">#EAD313</color>
     <color name="bad_status">#D64A40</color>
 
     <color name="grey">#606060</color>

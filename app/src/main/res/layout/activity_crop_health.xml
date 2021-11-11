@@ -38,17 +38,56 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearCropSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearCropName"
+        app:layout_constraintBottom_toTopOf="@+id/healthChart"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp">
+
+        <Spinner
+            android:id="@+id/cropNameSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:outlineAmbientShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/black"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
+
+    <com.ramijemli.percentagechartview.PercentageChartView
+        android:id="@+id/healthChart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:pcv_mode="fill"
+        app:pcv_orientation="counter_clockwise"
+        app:pcv_animDuration="800"
+        app:pcv_animInterpolator="anticipate_overshoot"
+        app:pcv_progress="10"
+        app:pcv_startAngle="90"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearCropSpinner"
+        app:layout_constraintBottom_toTopOf="@+id/linearCropHealth"/>
+
+    <LinearLayout
         android:id="@+id/linearCropHealth"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="250dp"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
         android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/shape_crop_good_health"
-        app:layout_constraintTop_toBottomOf="@+id/linearCropName"
-        app:layout_constraintBottom_toTopOf="@+id/linearCropSpinner">
+        app:layout_constraintTop_toBottomOf="@+id/healthChart"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/cropStatusTextView"
@@ -63,36 +102,12 @@
 
         <ImageView
             android:id="@+id/cropStatusImageView"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:src="@drawable/ic_baseline_mood_24"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearCropSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="40dp">
-
-        <Spinner
-            android:id="@+id/cropNameSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:outlineAmbientShadowColor="@color/black"
-            android:outlineSpotShadowColor="@color/black"
-            android:spinnerMode="dropdown"
-            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

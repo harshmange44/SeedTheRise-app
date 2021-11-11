@@ -4,17 +4,28 @@
     <string name="permission_unavailable">%s is not unavailable</string>
     <string name="no_internet_connection">No internet connection</string>
     <string-array name="cropNames">
-        <item>Tomato</item>
-        <item>Capsicum</item>
-        <item>Carrot</item>
-        <item>Potato</item>
-        <item>Rice</item>
-        <item>Onion</item>
-        <item>Watermelon</item>
-        <item>Grape</item>
+        <item>Apple</item>
+        <item>Banana</item>
+        <item>Blackgram</item>
+        <item>Chickpea</item>
+        <item>Coconut</item>
+        <item>Coffee</item>
+        <item>Cotton</item>
+        <item>Grapes</item>
+        <item>Jute</item>
+        <item>Kidneybeans</item>
+        <item>Lentil</item>
+        <item>Maize</item>
+        <item>Mango</item>
+        <item>Mothbeans</item>
+        <item>Mungbean</item>
+        <item>Muskmelon</item>
         <item>Orange</item>
-        <item>Brinjal</item>
-        <item>Wheat</item>
+        <item>Papaya</item>
+        <item>Pigeonpeas</item>
+        <item>Pomegranate</item>
+        <item>Rice</item>
+        <item>Watermelon</item>
     </string-array>
 
     <string-array name="sensorNames">

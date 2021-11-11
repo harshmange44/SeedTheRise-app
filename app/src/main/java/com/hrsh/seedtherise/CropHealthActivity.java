@@ -1,7 +1,8 @@
 package com.hrsh.seedtherise;
 
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,20 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.ColorUtils;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.ramijemli.percentagechartview.PercentageChartView;
+import com.ramijemli.percentagechartview.callback.AdaptiveColorProvider;
 
-import org.tensorflow.lite.Interpreter;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,8 +36,8 @@ public class CropHealthActivity extends AppCompatActivity {
     TextView currCropName, currCropStatus;
     ImageView cropStatusImgView, graphImgView;
     LinearLayout linearLayoutCropHealth;
-    Interpreter tflite;
     SensorDataResult sensorData;
+    PercentageChartView percentageChartView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +50,55 @@ public class CropHealthActivity extends AppCompatActivity {
         currCropStatus = findViewById(R.id.cropStatusTextView);
         cropStatusImgView = findViewById(R.id.cropStatusImageView);
         linearLayoutCropHealth = findViewById(R.id.linearCropHealth);
+        percentageChartView = findViewById(R.id.healthChart);
         graphImgView = findViewById(R.id.graphImgView);
 
         sensorData = new SensorDataResult(0, 0, 0, 0, 0);
         fetchInstanceData(instanceName, sensorData);
 
-        try {
-            tflite = new Interpreter(loadModelFile());
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+        percentageChartView.textColor(Color.BLACK)
+                .textSize(50)
+                .typeface(Typeface.SANS_SERIF)
+                .textShadow(Color.WHITE, 2f, 2f, 2f)
+                .backgroundColor(Color.BLACK)
+                .apply();
+
+        AdaptiveColorProvider colorProvider = new AdaptiveColorProvider() {
+            @Override
+            public int provideProgressColor(float progress) {
+                if (progress <= 20)
+                    return Color.parseColor("#EA0C0C");
+                else if (progress <= 40)
+                    return Color.parseColor("#DA2626");
+                else if (progress <= 50)
+                    return Color.parseColor("#CCBD3C");
+                else if (progress <= 60)
+                    return Color.parseColor("#EAD313");
+                else if (progress <= 80)
+                    return Color.parseColor("#65C869");
+                else return Color.parseColor("#1BB822");
+            }
+
+            @Override
+            public int provideBackgroundColor(float progress) {
+                return ColorUtils.blendARGB(provideProgressColor(progress), Color.BLACK, .8f);
+            }
+
+            @Override
+            public int provideTextColor(float progress) {
+                return provideProgressColor(progress);
+            }
+
+            @Override
+            public int provideBackgroundBarColor(float progress) {
+                return ColorUtils.blendARGB(provideProgressColor(progress), Color.BLACK, .5f);
+            }
+        };
+        percentageChartView.setAdaptiveColorProvider(colorProvider);
 
         String[] cropNames = getResources().getStringArray(R.array.cropNames);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CropHealthActivity.this, R.layout.support_simple_spinner_dropdown_item, cropNames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(CropHealthActivity.this, R.layout.support_simple_spinner_dropdown_item, cropNames);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         cropNameSpinner.setAdapter(adapter);
         cropNameSpinner.setSelection(0);
@@ -85,47 +117,50 @@ public class CropHealthActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 currCropName.setText(cropNames[position]);
 
-                if(position==1 ||position==4 ||position==5){
+                MLInputObject mlInputObject = new MLInputObject(sensorData.getAirSensorData(), sensorData.getSoilSensorData()
+                        , sensorData.getLDRSensorData(), sensorData.getTemperatureSensorData(), sensorData.getHumiditySensorData()
+                        , cropNames[position].toLowerCase());
+                predictAndInitCropHealth(mlInputObject);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void predictAndInitCropHealth(MLInputObject mlInputObject) {
+
+        Call<PredictionResult> call = MLRetrofitClient.getInstance().getMyApi().sendDataForPrediction(mlInputObject);
+        call.enqueue(new Callback<PredictionResult>() {
+            @Override
+            public void onResponse(Call<PredictionResult> call, Response<PredictionResult> response) {
+
+                PredictionResult prediction = response.body();
+                float healthPercentage = Float.parseFloat(prediction.getHealth().substring(0, 5))*10;
+                percentageChartView.setProgress(healthPercentage, true);
+
+                if(healthPercentage <= 40.0){
                     currCropStatus.setText("Your Plant Health is Critical    :(");
                     cropStatusImgView.setImageResource(R.drawable.ic_baseline_mood_bad_24);
                     linearLayoutCropHealth.setBackgroundResource(R.drawable.shape_crop_bad_health);
+                }else if(healthPercentage <= 60.0){
+                    currCropStatus.setText("Your Plant Health is Neutral    :|");
+                    cropStatusImgView.setImageResource(R.drawable.ic_baseline_mood_24);
+                    linearLayoutCropHealth.setBackgroundResource(R.drawable.shape_crop_neutral_health);
                 }else{
                     currCropStatus.setText("Your Plant is Healthy    :)");
                     cropStatusImgView.setImageResource(R.drawable.ic_baseline_mood_24);
                     linearLayoutCropHealth.setBackgroundResource(R.drawable.shape_crop_good_health);
                 }
-                String prediction=doInference(sensorData.getTemperatureSensorData(), sensorData.getHumiditySensorData());
-                Toast.makeText(CropHealthActivity.this, "Prediction: "+prediction, Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onFailure(Call<PredictionResult> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "An error has occured. "+t.getMessage(), Toast.LENGTH_LONG).show();
             }
+
         });
-    }
-
-    private String doInference(int temp, int humidity) {
-        float[] input_temp = {temp};
-        float[] input_humidity = {humidity};
-        float[][] inputVal = {input_temp, input_humidity};
-        float[] input=new float[2];
-        input[0] = Float.parseFloat(String.valueOf("27"));
-        input[1] = Float.parseFloat(String.valueOf("90"));
-        float[][] output=new float[1][1];
-        Map<Integer, Object> outputs = new HashMap<>();
-//        outputs.put(0, output);
-        tflite.run(input,output);
-        return String.valueOf(output[0][0]);
-    }
-
-    private MappedByteBuffer loadModelFile() throws IOException {
-        AssetFileDescriptor fileDescriptor=this.getAssets().openFd("linear.tflite");
-        FileInputStream inputStream=new FileInputStream(fileDescriptor.getFileDescriptor());
-        FileChannel fileChannel=inputStream.getChannel();
-        long startOffset=fileDescriptor.getStartOffset();
-        long declareLength=fileDescriptor.getDeclaredLength();
-        return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,declareLength);
     }
 
     private void fetchInstanceData(String instName, SensorDataResult sensorDataResult) {
@@ -141,8 +176,12 @@ public class CropHealthActivity extends AppCompatActivity {
                 sensorDataResult.setLdr(instanceResults.get(0).getSensorData().getLDRSensorData());
                 sensorDataResult.setTemperature(instanceResults.get(0).getSensorData().getTemperatureSensorData());
                 sensorDataResult.setHumidity(instanceResults.get(0).getSensorData().getHumiditySensorData());
-                Toast.makeText(CropHealthActivity.this, "Air: "+instanceResults.get(0).getSensorData().getAirSensorData() + " Soil: " + instanceResults.get(0).getSensorData().getSoilSensorData()
-                        + " LDR: " + instanceResults.get(0).getSensorData().getLDRSensorData() + " Temp: " + instanceResults.get(0).getSensorData().getTemperatureSensorData()+ " Humidity: " + instanceResults.get(0).getSensorData().getHumiditySensorData(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(CropHealthActivity.this, "Air: "+instanceResults.get(0).getSensorData().getAirSensorData() + " Soil: " + instanceResults.get(0).getSensorData().getSoilSensorData()
+//                        + " LDR: " + instanceResults.get(0).getSensorData().getLDRSensorData() + " Temp: " + instanceResults.get(0).getSensorData().getTemperatureSensorData()+ " Humidity: " + instanceResults.get(0).getSensorData().getHumiditySensorData(), Toast.LENGTH_LONG).show();
+                MLInputObject mlInputObject = new MLInputObject(sensorDataResult.getAirSensorData(), sensorDataResult.getSoilSensorData()
+                        , sensorDataResult.getLDRSensorData(), sensorDataResult.getTemperatureSensorData(), sensorDataResult.getHumiditySensorData()
+                        , "apple");
+                predictAndInitCropHealth(mlInputObject);
             }
 
             @Override
@@ -158,13 +197,7 @@ public class CropHealthActivity extends AppCompatActivity {
         call.enqueue(new Callback<SensorDataResult>() {
             @Override
             public void onResponse(Call<SensorDataResult> call, Response<SensorDataResult> response) {
-//                System.out.println("DEBUG: response: "+response.body().toString());
-//
                 SensorDataResult sensorResults = response.body();
-
-                System.out.println("DEBUG: sensor data: "+sensorResults.getAirSensorData() + " " + sensorResults.getSoilSensorData() + " "
-                        + sensorResults.getLDRSensorData() + " " + sensorResults.getTemperatureSensorData() + " " + sensorResults.getHumiditySensorData());
-
             }
 
             @Override
